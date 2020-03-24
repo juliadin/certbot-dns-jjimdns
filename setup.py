@@ -24,7 +24,7 @@ setup(
     name='certbot-dns-jjimdns',
     version=version,
     description="DNS Authenticator plugin proxying records via SSH",
-    url='',
+    url='https://sauce.vm.is.jjim.de/julia/certbot-dns-jjimdns/',
     author="Julia Brunenberg",
     license='PD',
     python_requires='>=3.5',
