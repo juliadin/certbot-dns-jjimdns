@@ -1,6 +1,8 @@
 
 import subprocess
 import logging
+import time
+
 import zope.interface
 
 from certbot import errors
@@ -20,7 +22,7 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
 
     @classmethod
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
-        super(JJIMDNS_Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=0)
+        super(JJIMDNS_Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=20)
         add('remote-host', help='host to connect to via SSH', default='localhost')
         add('remote-user', help='user to connect as', default='root')
         add('min-ttl', help='minimum record TTL', default=30, type=int)
@@ -32,6 +34,11 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
         return
 
     def _perform(self, domain, rname, content):
-        subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "replace: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
+        result = subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "replace: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
+        if result.returncode > 0:
+            raise errors.PluginError("There was an error updating the record. Return code was {}".format(result.returncode))
+
     def _cleanup(self, domain, rname, content):
-        subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "delete: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
+        result = subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "delete: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
+        if result.returncode > 0:
+            raise errors.PluginError("There was an error updating the record. Return code was {}".format(result.returncode))
