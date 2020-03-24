@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
 
-    description="Authenticate via SSH Cli to a remote DNS Server, running a PDNS CLI Proxy"
+    description="Authenticate via SSH Cli to a remote DNS Server, running a JJIMDNS compatible command proxy"
     long_description=description
 
     @classmethod
@@ -24,6 +24,9 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
         add('remote_host', help='host to connect to via SSH', default='localhost')
         add('remote_user', help='user to connect as', default='root')
         add('min_ttl', help='minimum record TTL', default=30, type=int)
+
+    def more_info(self):
+        return("The plugin uses a remote DNS server via SSH to install and cleanup challenges. The remote must support the jjimdns protocol.")
 
     def _setup_credentials(self):
         return
