@@ -21,9 +21,9 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
     @classmethod
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
         super(JJIMDNS_Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=0)
-        add('remote_host', help='host to connect to via SSH', default='localhost')
-        add('remote_user', help='user to connect as', default='root')
-        add('min_ttl', help='minimum record TTL', default=30, type=int)
+        add('remote-host', help='host to connect to via SSH', default='localhost')
+        add('remote-user', help='user to connect as', default='root')
+        add('min-ttl', help='minimum record TTL', default=30, type=int)
 
     def more_info(self):
         return("The plugin uses a remote DNS server via SSH to install and cleanup challenges. The remote must support the jjimdns protocol.")
@@ -32,6 +32,6 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
         return
 
     def _perform(self, domain, rname, content):
-        subprocess.run([ "ssh", "{}@{}".format(self.conf("remote_user"), self.conf("remote_host")), "replace: {} {} IN TXT {}".format(rname, self.conf("min_ttl"), content )])
+        subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "replace: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
     def _cleanup(self, domain, rname, content):
-        subprocess.run([ "ssh", "{}@{}".format(self.conf("remote_user"), self.conf("remote_host")), "delete: {} {} IN TXT {}".format(rname, self.conf("min_ttl"), content )])
+        subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "delete: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
