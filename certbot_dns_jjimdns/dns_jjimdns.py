@@ -36,9 +36,9 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
     def _perform(self, domain, rname, content):
         result = subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "replace: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
         if result.returncode > 0:
-            raise errors.PluginError("There was an error updating the record. Return code was {}".format(result.returncode))
+            raise errors.PluginError("There was an error setting up the challenge '{}'. Return code was {}".format(rname, result.returncode))
 
     def _cleanup(self, domain, rname, content):
         result = subprocess.run([ "ssh", "{}@{}".format(self.conf("remote-user"), self.conf("remote-host")), "delete: {} {} IN TXT {}".format(rname, self.conf("min-ttl"), content )])
         if result.returncode > 0:
-            raise errors.PluginError("There was an error updating the record. Return code was {}".format(result.returncode))
+            raise errors.PluginError("There was an error cleaning up the challenge '{}'. Return code was {}".format(rname, result.returncode))
