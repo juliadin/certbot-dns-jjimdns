@@ -14,7 +14,9 @@ logger = logging.getLogger(__name__)
 @zope.interface.provider(interfaces.IPluginFactory)
 
 class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
-    default_ttl=30
+
+    description="Authenticate via SSH Cli to a remote DNS Server, running a PDNS CLI Proxy"
+    long_description=description
 
     @classmethod
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
