@@ -22,7 +22,7 @@ class JJIMDNS_Authenticator(dns_common.DNSAuthenticator):
 
     @classmethod
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
-        super(JJIMDNS_Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=20)
+        super(JJIMDNS_Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=10)
         add('remote-host', help='host to connect to via SSH', default='localhost')
         add('remote-user', help='user to connect as', default='root')
         add('min-ttl', help='minimum record TTL', default=30, type=int)
