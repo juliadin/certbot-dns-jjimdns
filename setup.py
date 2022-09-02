@@ -4,7 +4,7 @@ from setuptools import find_packages
 with open('README.md') as file:
     long_description = file.read()
 
-version = '1.0.0'
+version = '1.0.1'
 
 # Remember to update local-oldest-requirements.txt when changing the minimum
 # acme/certbot version.
@@ -24,10 +24,10 @@ setup(
     name='certbot-dns-jjimdns',
     version=version,
     description="DNS Authenticator plugin proxying records via SSH",
-    url='https://sauce.vm.is.jjim.de/julia/certbot-dns-jjimdns/',
+    url='https://github.com/juliadin/certbot-dns-jjimdns/',
     author="Julia Brunenberg",
     license='PD',
-    python_requires='>=3.5',
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Plugins',
